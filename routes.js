@@ -4,19 +4,26 @@ var PostModel = require('./models/Post');
 
 module.exports = function(app) {
 
-    app.get('/', function(req,res) {
+    app.get('/posts', function(req, res) {
         PostModel.find({})
             .then((posts) => {
                 res.json(posts);
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.log(error);
+            });
     });
 
+    
+    app.post('/post', function(req,res) {
+        var newPost = new PostModel(req.body);
+        newPost.save()
+            .then(result => {
+                console.log(result);
+            })
+            .catch(error => console.log(error));
 
-    app.post('/', function(req,res) {
-        console.log(req.body);
-    })
-
+    });
 
 }
 
